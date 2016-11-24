@@ -16,3 +16,4 @@ spec:
         - name: COUCHBASE_URI
           value: couchbase-service
       restartPolicy: Never
+
