@@ -1,9 +1,4 @@
 = Kubernetes Java Samples
-:toc:
-:toclevels: 3
-:toc-placement!:
-
-toc::[]
 
 This project shows different recipes to run a Java EE application using Kubernetes.
 
@@ -537,49 +532,3 @@ Book{isbn=978-1-4919-1889-0, name=Minecraft Modding with Forge, cost=29.99}
 2016-09-29 19:21:16.824  INFO 5 --- [      cb-io-1-2] com.couchbase.client.core.node.Node      : Disconnected from Node couchbase-service
 2016-09-29 19:21:16.826  INFO 5 --- [       Thread-5] c.c.c.core.config.ConfigurationProvider  : Closed bucket books
 ----
-
-== Kubernetes Volumes
-
-http://kubernetes.io/docs/user-guide/volumes/
-
-== Kubernetes Application Health Checks
-
-http://kubernetes.io/v1.0/docs/user-guide/walkthrough/k8s201.html#health-checking
-http://kubernetes.io/docs/user-guide/liveness/
-
-Kubernetes cluster checks if the container process is still running, and if not, the container process is restarted. This basic level of health checking is already enabled for all containers running in the Kubernetes cluster. This health check is performed by Kubelet.
-
-In addition, it also enables user implemented application health checks. These checks are performed by the Kubernetes cluster to ensure that the application is running "`correctly`" provided by the application.
-
-Currently there are three types of application health checks.
-
-. HTTP Health Checks
-. Container Exec
-. TCP Socket
-
-=== Kubernetes HTTP Health Check
-
-=== Kubernetes Container Exec Health Check
-
-=== Kubernetes TCP Socket Health Check
-
-== OpenShift
-
-http://blog.arungupta.me/openshift-v3-getting-started-javaee7-wildfly-mysql/
-
-== Fabric 8
-
-=== Console
-
-Allows to package and deploy application using a Console
-
-=== Visualization of resources
-
-=== Maven plugin to generate JSON for your WAR file
-
-https://github.com/arun-gupta/kubernetes-java-sample/tree/master/maven
-
-=== Deploy application to Kubernetes
-
-https://github.com/arun-gupta/kubernetes-java-sample/tree/master/maven
-
