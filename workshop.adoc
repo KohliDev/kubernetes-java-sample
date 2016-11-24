@@ -59,7 +59,7 @@ This section will explain how to start a Pod with one Container. WildFly base Do
 +
 [source, text]
 ----
-kubectl.sh create -f wildfly-pod.yaml
+kubectl create -f wildfly-pod.yaml
 pod "wildfly-pod" created
 ----
 +
@@ -67,7 +67,7 @@ pod "wildfly-pod" created
 +
 [source, text]
 ----
-kubectl.sh get -w po
+kubectl get -w po
 NAME          READY     STATUS              RESTARTS   AGE
 wildfly-pod   0/1       ContainerCreating   0          6s
 NAME          READY     STATUS    RESTARTS   AGE
@@ -80,7 +80,7 @@ NOTE: Make sure to wait for the status to change to Running.
 +
 [source, text]
 ----
-kubectl.sh describe po wildfly-pod
+kubectl describe po wildfly-pod
 Name:   wildfly-pod
 Namespace:  default
 Node:   ip-172-20-0-111.us-west-2.compute.internal/172.20.0.111
@@ -129,7 +129,7 @@ Events:
 +
 [source, text]
 ----
-kubectl.sh logs wildfly-pod
+kubectl logs wildfly-pod
 =========================================================================
 
   JBoss Bootstrap Environment
@@ -161,7 +161,7 @@ kubectl.sh logs wildfly-pod
 +
 [source, text]
 ----
-kubectl.sh delete -f wildfly-pod.yaml
+kubectl delete -f wildfly-pod.yaml
 pod "wildfly-pod" deleted
 ----
 
@@ -173,13 +173,13 @@ This section will explain how to start a https://github.com/kubernetes/kubernete
 +
 [source, text]
 ----
-kubectl.sh create -f wildfly-rc.yaml
+kubectl create -f wildfly-rc.yaml
 ----
 . Get status of the Pods:
 +
 [source, text]
 ----
-kubectl.sh get -w po
+kubectl get -w po
 NAME               READY     STATUS              RESTARTS   AGE
 wildfly-rc-iv1o6   0/1       ContainerCreating   0          3s
 wildfly-rc-lbcyq   0/1       ContainerCreating   0          3s
@@ -196,7 +196,7 @@ Note down name of the Pods as "`wildfly-rc-bgtkg`" and "`wildfly-rc-l8fqv`".
 +
 [source, text]
 ----
-kubectl.sh get rc
+kubectl get rc
 NAME         DESIRED   CURRENT   READY     AGE
 wildfly-rc   2         2         2         55s
 ----
@@ -205,7 +205,7 @@ If multiple Replication Controllers are running then you can query for this spec
 +
 [source, text]
 ----
-kubectl.sh get rc -l name=wildfly
+kubectl get rc -l name=wildfly
 NAME         DESIRED   CURRENT   READY     AGE
 wildfly-rc   2         2         2         1m
 ----
@@ -220,7 +220,7 @@ Lets start a Replication Controller with two replicas of a pod. Delete a Pod and
 +
 [source, text]
 ----
-kubectl.sh get pods
+kubectl get pods
 NAME               READY     STATUS    RESTARTS   AGE
 wildfly-rc-iv1o6   1/1       Running   0          2m
 wildfly-rc-lbcyq   1/1       Running   0          2m
@@ -230,7 +230,7 @@ wildfly-rc-lbcyq   1/1       Running   0          2m
 +
 [source, text]
 ----
-kubectl.sh delete pod/wildfly-rc-iv1o6
+kubectl delete pod/wildfly-rc-iv1o6
 pod "wildfly-rc-iv1o6" deleted
 ----
 +
@@ -238,7 +238,7 @@ pod "wildfly-rc-iv1o6" deleted
 +
 [source, text]
 ----
-kubectl.sh get pods
+kubectl get pods
 NAME               READY     STATUS    RESTARTS   AGE
 wildfly-rc-lbcyq   1/1       Running   0          3m
 wildfly-rc-z3wg3   1/1       Running   0          6s
@@ -254,7 +254,7 @@ Replication Controller allows dynamic scaling up and down of Pods.
 +
 [source, text]
 ----
-kubectl.sh scale --replicas=3 rc wildfly-rc
+kubectl scale --replicas=3 rc wildfly-rc
 scaled
 ----
 +
@@ -262,7 +262,7 @@ scaled
 +
 [source, text]
 ----
-kubectl.sh get -w pods
+kubectl get -w pods
 NAME               READY     STATUS              RESTARTS   AGE
 wildfly-rc-htfj2   1/1       Running             0          1m
 wildfly-rc-oq97h   0/1       ContainerCreating   0          26s
@@ -277,7 +277,7 @@ Notice a new Pod with the name "`wildfly-rc-oq97h`" is created.
 +
 [source, text]
 ----
-kubectl.sh get rc
+kubectl get rc
 NAME         DESIRED   CURRENT   READY     AGE
 wildfly-rc   3         3         3         7m
 ----
@@ -286,7 +286,7 @@ wildfly-rc   3         3         3         7m
 +
 [source, text]
 ----
-kubectl.sh scale --replicas=1 rc wildfly-rc
+kubectl scale --replicas=1 rc wildfly-rc
 scaled
 ----
 +
@@ -294,7 +294,7 @@ scaled
 +
 [source, text]
 ----
-kubectl.sh get rc
+kubectl get rc
 NAME         DESIRED   CURRENT   READY     AGE
 wildfly-rc   1         1         1         8m
 ----
@@ -303,7 +303,7 @@ wildfly-rc   1         1         1         8m
 +
 [source, text]
 ----
-kubectl.sh get pods
+kubectl get pods
 NAME               READY     STATUS    RESTARTS   AGE
 wildfly-rc-z3wg3   1/1       Running   0          5m
 ----
@@ -324,7 +324,7 @@ Finally, delete the Replication Controller:
 
 [source, text]
 ----
-kubectl.sh delete -f wildfly-rc.yaml
+kubectl delete -f wildfly-rc.yaml
 replicationcontroller "wildfly-rc" deleted
 ----
 
@@ -336,7 +336,7 @@ This section will show how to deploy a Java EE application in a Pod with one Con
 +
 [source, text]
 ----
-kubectl.sh create -f javaee7-hol.yaml
+kubectl create -f javaee7-hol.yaml
 replicationcontroller "javaee7-hol" created
 ----
 +
@@ -344,7 +344,7 @@ replicationcontroller "javaee7-hol" created
 +
 [source, text]
 ----
-kubectl.sh get -w po
+kubectl get -w po
 NAME                READY     STATUS              RESTARTS   AGE
 javaee7-hol-09ups   0/1       ContainerCreating   0          13s
 NAME                READY     STATUS    RESTARTS   AGE
@@ -357,7 +357,7 @@ NOTE: Make sure to wait for the status to change to Running.
 +
 [source, text]
 ----
-kubectl.sh get rc
+kubectl get rc
 NAME          DESIRED   CURRENT   READY     AGE
 javaee7-hol   1         1         1         11s
 ----
@@ -366,7 +366,7 @@ javaee7-hol   1         1         1         11s
 +
 [source, text]
 ----
-kubectl.sh get pods
+kubectl get pods
 NAME                READY     STATUS    RESTARTS   AGE
 javaee7-hol-e4ezg   1/1       Running   0          24s
 ----
@@ -375,7 +375,7 @@ javaee7-hol-e4ezg   1/1       Running   0          24s
 +
 [source, text]
 ----
-kubectl.sh logs javaee7-hol-e4ezg
+kubectl logs javaee7-hol-e4ezg
 =========================================================================
 
   JBoss Bootstrap Environment
@@ -405,14 +405,14 @@ kubectl.sh logs javaee7-hol-e4ezg
 +
 [source, text]
 ----
-kubectl.sh expose rc javaee7-hol --name=javaee7-webapp --port=8080 --target-port=8080
+kubectl expose rc javaee7-hol --name=javaee7-webapp --port=8080 --target-port=8080
 ----
 +
 . Start proxy:
 +
 [source, text]
 ----
-kubectl.sh proxy
+kubectl proxy
 ----
 +
 . Access the application at: http://127.0.0.1:8001/api/v1/proxy/namespaces/default/services/javaee7-webapp/movieplex7/
@@ -421,7 +421,7 @@ kubectl.sh proxy
 +
 [source, text]
 ----
-kubectl.sh describe service javaee7-webapp
+kubectl describe service javaee7-webapp
 Name:     javaee7-webapp
 Namespace:    default
 Labels:     name=javaee7-hol
@@ -446,7 +446,7 @@ Events:
 +
 [source, text]
 ----
-kubectl.sh delete rc/javaee7-hol svc/javaee7-webapp
+kubectl delete rc/javaee7-hol svc/javaee7-webapp
 replicationcontroller "javaee7-hol" deleted
 service "javaee7-webapp" deleted
 ----
@@ -467,7 +467,7 @@ NOTE: All code for this sample is in the `maven` directory.
 +
 [source, text]
 ----
-kubectl.sh create -f couchbase-service.yml
+kubectl create -f couchbase-service.yml
 service "couchbase-service" created
 replicationcontroller "couchbase-rc" created
 ----
@@ -476,7 +476,7 @@ replicationcontroller "couchbase-rc" created
 +
 [source, text]
 ----
-kubectl.sh get -w pods
+kubectl get -w pods
 NAME                 READY     STATUS              RESTARTS   AGE
 couchbase-rc-yl4am   0/1       ContainerCreating   0          13s
 NAME                 READY     STATUS    RESTARTS   AGE
@@ -487,7 +487,7 @@ If multiple pods are running, then the list of pods can be narrowed by specifyin
 +
 [source, text]
 ----
-kubectl.sh get pod -l app=couchbase-rc-pod
+kubectl get pod -l app=couchbase-rc-pod
 NAME                 READY     STATUS    RESTARTS   AGE
 couchbase-rc-yl4am   1/1       Running   0          2m
 ----
@@ -496,7 +496,7 @@ couchbase-rc-yl4am   1/1       Running   0          2m
 +
 [source, text]
 ----
-kubectl.sh get service
+kubectl get service
 NAME                CLUSTER-IP    EXTERNAL-IP   PORT(S)                                AGE
 couchbase-service   10.0.38.222   <none>        8091/TCP,8092/TCP,8093/TCP,11210/TCP   1m
 kubernetes          10.0.0.1      <none>        443/TCP                                53m
