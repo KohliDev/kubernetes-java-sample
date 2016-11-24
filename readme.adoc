@@ -417,8 +417,6 @@ This section will show how to run a Couchbase service and using a Spring Boot ap
 
 The order of Service and the targeted Pods does not matter. However Service needs to be started before any other Pods consuming the Service are started.
 
-NOTE: All code for this sample is in the `maven` directory.
-
 . Start Couchase RC and Service:
 +
 [source, text]
