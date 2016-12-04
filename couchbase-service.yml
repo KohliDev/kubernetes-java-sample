@@ -29,6 +29,7 @@ spec:
       containers:
       - name: couchbase
         image: arungupta/oreilly-couchbase
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8091
         - containerPort: 8092

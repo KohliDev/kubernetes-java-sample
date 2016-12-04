@@ -7,6 +7,7 @@ metadata:
 spec: 
   containers: 
     - image: jboss/wildfly
+      imagePullPolicy: IfNotPresent
       name: wildfly-pod
       ports: 
         - containerPort: 8080

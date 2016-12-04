@@ -16,5 +16,6 @@ spec:
       containers:
       - name: master
         image: arungupta/javaee7-hol
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

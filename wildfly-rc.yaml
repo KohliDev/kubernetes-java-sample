@@ -14,5 +14,6 @@ spec:
       containers:
       - name: wildfly-rc-pod
         image: jboss/wildfly
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

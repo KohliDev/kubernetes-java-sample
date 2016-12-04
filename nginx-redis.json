@@ -1,0 +1,34 @@
+{
+  "kind": "Pod",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "nginx-redis",
+    "labels": {
+      "app": "webapp"
+    }
+  },
+  "spec": {
+    "containers": [
+      {
+        "name": "key-value-store",
+        "image": "redis",
+        "imagePullPolicy": "IfNotPresent",
+        "ports": [
+          {
+            "containerPort": 6379
+          }
+        ]
+      },
+      {
+        "name": "nginx",
+        "image": "nginx",
+        "imagePullPolicy": "IfNotPresent",
+        "ports": [
+          {
+            "containerPort": 85
+          }
+        ]
+      }
+    ]
+  }
+}

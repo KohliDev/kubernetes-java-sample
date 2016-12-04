@@ -12,6 +12,7 @@ spec:
       containers:
       - name: bootiful-couchbase
         image: arungupta/bootiful-couchbase
+        imagePullPolicy: IfNotPresent
         env:
         - name: COUCHBASE_URI
           value: couchbase-service
