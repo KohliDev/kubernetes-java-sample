@@ -338,6 +338,40 @@ $ kubectl delete -f wildfly-pod.yaml
 pod "wildfly-pod" deleted
 ----
 
+== A Pod with two Containers
+
+. In this example we will be creating two containers in one pod using json/yaml file. This configuration is generally used to keep the dependent components of your application together but in seperate containers.
++
+[source, text]
+----
+$ kubectl create -f nginx-redis.json 
+pod "nginx-redis" created
+$ kubectl get pods
+NAME          READY     STATUS    RESTARTS   AGE
+nginx-redis   2/2       Running   0          5s
+----
++
+
+. We can see one pod created above but two containers will be running in the system which can be listed using docker command:
++
+[source, text]
+----
+$ docker ps 
+CONTAINER ID        IMAGE                                COMMAND                  CREATED             STATUS              PORTS               NAMES
+c89e41dea460        nginx                                "nginx -g 'daemon off"   8 seconds ago       Up 8 seconds                            k8s_nginx.df822a8e_nginx-redis_default_e34d1ae0-bac7-11e6-a326-0800279bf046_75f4d256
+fe85d388b2ba        redis                                "docker-entrypoint.sh"   9 seconds ago       Up 8 seconds                            k8s_key-value-store.827e2eb6_nginx-redis_default_e34d1ae0-bac7
+----
++
+
+. Delete the pod
++
+[source, text]
+----
+$ kubectl delete -f nginx-redis.json 
+pod "nginx-redis" deleted
+----
++
+
 == A Replication Controller with Two Replicas of a Pod
 
 This section will explain how to start a https://github.com/kubernetes/kubernetes/blob/master/docs/user-guide/replication-controller.md[Replication Controller] with two replicas of a Pod. Each Pod will have one WildFly container.
@@ -536,7 +570,17 @@ No events.
 ----
 +
 
-The nginx server can be accessed at http://172.17.0.2:80 or http://172.17.0.3:80 as per your Endpoint IP address.
+. Delete the pod and service
++
+[source, text]
+----
+$ kubectl delete -f nginx-pod.yaml 
+deployment "my-nginx" deleted
+$ kubectl delete -f nginx-service.yaml 
+service "my-nginx" deleted
+----
++
+The nginx server can be accessed inside the VM at http://172.17.0.2:80 or http://172.17.0.3:80 as per your Endpoint IP address.
 
 
 == Java EE Application deployed in a Pod with one Container (WildFly + H2 in-memory database)
@@ -626,7 +670,7 @@ $ kubectl expose rc javaee7-hol --name=javaee7-webapp --port=8080 --target-port=
 $ kubectl proxy
 ----
 +
-. Access the application at: http://127.0.0.1:8001/api/v1/proxy/namespaces/default/services/javaee7-webapp/movieplex7/
+. Access the application from the inside the VM at: http://127.0.0.1:8001/api/v1/proxy/namespaces/default/services/javaee7-webapp/movieplex7/
 +
 . Application can also be accessed using the external LB. Get ingress LB address:
 +
@@ -651,7 +695,7 @@ Events:
   4m    4m    1 {service-controller }     Normal    CreatedLoadBalancer Created load balancer
 ----
 +
-. Get the value of `LoadBalancer Ingress` and access the app at http://<IP>:8080/movieplex7.
+. Get the value of `LoadBalancer Ingress` and access the app from inside the VM at http://<IP>:8080/movieplex7.
 +
 . Delete resources:
 +
