@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nginx-pod
+  name: wildfly-pod
   labels: 
-    name: nginx
+    name: wildfly
 spec: 
   containers: 
-    - image: nginx
+    - image: jboss/wildfly
       imagePullPolicy: IfNotPresent
-      name: nginx-pod
+      name: wildfly-pod
       ports: 
-        - containerPort: 80
+        - containerPort: 8080
