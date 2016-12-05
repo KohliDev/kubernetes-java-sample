@@ -204,7 +204,7 @@ fed-node          name=fed-node-label     Ready
 
 Please refer the following link in case more details or help is required for setting up http://kubernetes.io/docs/getting-started-guides/fedora/fedora_manual_config/[Single-Node Fedora Cluster].
 
-= Fedora_k8s_Demo.ova
+= Fedora_k8s_Demo OVA
 
 . If you are going to use the Fedora_k8s_Demo.ova which is provided to you then just import the ova in Virtual box.
 
@@ -212,7 +212,7 @@ Please refer the following link in case more details or help is required for set
 
 . After powering on the VM click on Activities(top left-hand corner) and type terminal in search bar to open the shell.
 
-. Start Kubernetes with help of the start_k8s.sh which pre-exists in the ova.
+. Start Kubernetes with help of the shell script start_k8s.sh which pre-exists in the OVA.
 +
 [source, text]
 ----
