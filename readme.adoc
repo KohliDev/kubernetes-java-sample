@@ -370,7 +370,6 @@ fe85d388b2ba        redis                                "docker-entrypoint.sh" 
 $ kubectl delete -f nginx-redis.json 
 pod "nginx-redis" deleted
 ----
-+
 
 == A Replication Controller with Two Replicas of a Pod
 
@@ -570,6 +569,8 @@ No events.
 ----
 +
 
+The nginx server can be accessed inside the VM at http://172.17.0.2:80 or http://172.17.0.3:80 as per your Endpoint IP address.
+
 . Delete the pod and service
 +
 [source, text]
@@ -580,8 +581,6 @@ $ kubectl delete -f nginx-service.yaml
 service "my-nginx" deleted
 ----
 +
-The nginx server can be accessed inside the VM at http://172.17.0.2:80 or http://172.17.0.3:80 as per your Endpoint IP address.
-
 
 == Java EE Application deployed in a Pod with one Container (WildFly + H2 in-memory database)
 
