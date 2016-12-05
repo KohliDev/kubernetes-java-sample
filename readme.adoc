@@ -493,6 +493,52 @@ $ kubectl delete -f wildfly-rc.yaml
 replicationcontroller "wildfly-rc" deleted
 ----
 
+== Kubernetes Service
+
+In this section we will be creating a nginx pod and then exposing a service for it.
+
+. Create the nginx pod
++
+[source, text]
+----
+$ kubectl create -f nginx-pod.yaml 
+deployment "my-nginx" created
+
+$ kubectl get pods
+NAME                        READY     STATUS    RESTARTS   AGE
+my-nginx-1072136342-f9ese   1/1       Running   0          11s
+my-nginx-1072136342-w8bsl   1/1       Running   0          11s
+----
++
+
+. Expose the above created nginx pod with help of services
++
+[source, text]
+----
+$ kubectl create -f nginx-service.yaml 
+service "my-nginx" created
+$ kubectl get services
+NAME         CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+kubernetes   10.254.0.1       <none>        443/TCP   28d
+my-nginx     10.254.136.124   <none>        80/TCP    5s
+
+$ kubectl describe service my-nginx
+Name:			my-nginx
+Namespace:		default
+Labels:			run=my-nginx
+Selector:		run=my-nginx
+Type:			ClusterIP
+IP:			10.254.136.124
+Port:			<unset>	80/TCP
+Endpoints:		172.17.0.2:80,172.17.0.3:80
+Session Affinity:	None
+No events.
+----
++
+
+The nginx server can be accessed at http://172.17.0.2:80 or http://172.17.0.3:80 as per your Endpoint IP address.
+
+
 == Java EE Application deployed in a Pod with one Container (WildFly + H2 in-memory database)
 
 This section will show how to deploy a Java EE application in a Pod with one Container. WildFly, with an in-memory H2 database, will be used as the container.
@@ -616,7 +662,7 @@ replicationcontroller "javaee7-hol" deleted
 service "javaee7-webapp" deleted
 ----
 
-== Kubernetes Service
+== Extra Example: Couchbase Service
 
 Pods are ephemeral. IP address assigned to a Pod cannot be relied upon. Kubernetes, Replication Controller in particular, create and destroy Pods dynamically. A _consumer_ Pod cannot rely upon the IP address of a _producer_ Pod.
 
