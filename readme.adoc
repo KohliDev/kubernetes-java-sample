@@ -580,7 +580,6 @@ deployment "my-nginx" deleted
 $ kubectl delete -f nginx-service.yaml 
 service "my-nginx" deleted
 ----
-+
 
 == Java EE Application deployed in a Pod with one Container (WildFly + H2 in-memory database)
 
@@ -705,7 +704,7 @@ replicationcontroller "javaee7-hol" deleted
 service "javaee7-webapp" deleted
 ----
 
-== Extra Example: Couchbase Service
+== Extra Example: Couchbase Kubernetes Service
 
 Pods are ephemeral. IP address assigned to a Pod cannot be relied upon. Kubernetes, Replication Controller in particular, create and destroy Pods dynamically. A _consumer_ Pod cannot rely upon the IP address of a _producer_ Pod.
 
