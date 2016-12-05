@@ -15,6 +15,214 @@ Key concepts of Kubernetes are explained below:
 . *Node*: Docker host running _kubelet_ (node agent) and proxy services
 . *Kubelet*: It runs on each node in the cluster and is responsible for node level pod management.
 
+= Kubernetes Installation
+
+We are going to setup single-node cluster using Fedora 24 which can be downloaded from the following link:
+http://mirror.0x.sg/fedora/linux/releases/24/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-24-1.2.iso[Fedora 24 ISO Image]
+
+. Set host information in /etc/hosts
++
+[source, text]
+----
+$ echo "127.0.0.1	fed-master
+127.0.0.1	fed-node" >> /etc/hosts
+----
++
+. Enable Kubernetes Repo:
++
+[source, text]
+----
+yum -y install --enablerepo=updates-testing kubernetes
+----
++
+. Install etcd and Iptables
++
+[source, text]
+----
+yum -y install etcd iptables
+----
++
+
+. Disable the firewall and iptables services
++
+[source, text]
+----
+systemctl disable iptables firewalld
+systemctl stop iptables firewalld
+----
++
+
+. Edit /etc/kubernetes/config
++
+[source, text]
+----
+# Comma separated list of nodes in the etcd cluster
+KUBE_MASTER="--master=http://fed-master:8080"
+
+# logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR="--logtostderr=true"
+
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL="--v=0"
+
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV="--allow-privileged=false"
+----
++
+
+. Edit /etc/kubernetes/apiserver to appear as such
++
+[source, text]
+----
+# The address on the local server to listen to.
+KUBE_API_ADDRESS="--address=0.0.0.0"
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS="--etcd-servers=http://127.0.0.1:4001"
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.254.0.0/16"
+
+# Add your own!
+KUBE_API_ARGS="--service_account_key_file=/tmp/serviceaccount.key"
+----
++
+
+. Edit /etc/kubernetes/controller-manager
++
+[source, text]
+----
+###
+# The following values are used to configure the kubernetes controller-manager
+
+# defaults from config and apiserver should be adequate
+
+# Add your own!
+KUBE_CONTROLLER_MANAGER_ARGS="--service_account_private_key_file=/tmp/serviceaccount.key"
+----
++
+
+. Edit /etc/etcd/etcd.conf
++
+[source, text]
+----
+ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:4001"
+----
++
+
+. Create /var/run/kubernetes:
++
+[source, text]
+----
+mkdir /var/run/kubernetes
+chown kube:kube /var/run/kubernetes
+chmod 750 /var/run/kubernetes
+----
++
+
+. We need to configure the kubelet on the node, edit /etc/kubernetes/kubelet to appear as such:
++
+[source, text]
+----
+###
+# Kubernetes kubelet (node) config
+
+# The address for the info server to serve on (set to 0.0.0.0 or "" for all interfaces)
+KUBELET_ADDRESS="--address=0.0.0.0"
+
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME="--hostname-override=fed-node"
+
+# location of the api-server
+KUBELET_API_SERVER="--api-servers=http://fed-master:8080"
+
+# Add your own!
+#KUBELET_ARGS=""
+----
++
+
+. Start the appropriate master and node services on this vm by creating a shell script start_k8s.sh as shown below:
++
+[source, text]
+----
+$ touch start_k8s.sh
+$ chmod +x start _k8s.sh
+$ vi start_k8s.sh
+openssl genrsa -out /tmp/serviceaccount.key 2048
+for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler kube-proxy kubelet docker; do
+        systemctl restart $SERVICES
+        systemctl enable $SERVICES
+done
+$ ./start-k8s.sh 
+Generating RSA private key, 2048 bit long modulus
+.......+++
+.............+++
+e is 65537 (0x10001)
+----
++
+
+. Create following node.json file on Kubernetes master node:
++
+[source, text]
+----
+{
+    "apiVersion": "v1",
+    "kind": "Node",
+    "metadata": {
+        "name": "fed-node",
+        "labels":{ "name": "fed-node-label"}
+    },
+    "spec": {
+        "externalID": "fed-node"
+    }
+}
+----
++
+
+. Now create a node object internally in your Kubernetes cluster by running:
++
+[source, text]
+----
+$ kubectl create -f ./node.json
+
+$ kubectl get nodes
+NAME                LABELS              STATUS
+fed-node           name=fed-node-label     Unknown
+----
++
+
+. Check to make sure now the cluster can see the fed-node on fed-master, and its status changes to Ready.
++
+[source, text]
+----
+kubectl get nodes
+NAME                LABELS              STATUS
+fed-node          name=fed-node-label     Ready
+----
++
+
+Please refer the following link in case more details or help is required for setting up http://kubernetes.io/docs/getting-started-guides/fedora/fedora_manual_config/[Single-Node Fedora Cluster].
+
+= Fedora_k8s_Demo.ova
+
+. If you are going to use the Fedora_k8s_Demo.ova which is provided to you then just import the ova in Virtual box.
+
+. Set the network as "NAT"
+
+. After powering on the VM click on Activities(top left-hand corner) and type terminal in search bar to open the shell.
+
+. Start Kubernetes with help of the start_k8s.sh which pre-exists in the ova.
++
+[source, text]
+----
+$ cd kubernetes-java-sample/
+$ ./start-k8s.sh 
+Generating RSA private key, 2048 bit long modulus
+.......+++
+.............+++
+e is 65537 (0x10001)
+----
+
 == A Pod with One Container
 
 This section will explain how to start a Pod with one Container. WildFly base Docker image will be used as the Container.
