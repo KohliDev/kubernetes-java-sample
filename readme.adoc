@@ -329,14 +329,6 @@ $ kubectl logs wildfly-pod
 22:38:41,197 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
 22:38:41,197 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 10.1.0.Final (WildFly Core 2.2.0.Final) started in 5888ms - Started 331 of 577 services (393 services are lazy, passive or on-demand)
 ----
-+
-. Delete the Pod:
-+
-[source, text]
-----
-$ kubectl delete -f wildfly-pod.yaml
-pod "wildfly-pod" deleted
-----
 
 == A Pod with two Containers
 
@@ -360,15 +352,6 @@ $ docker ps
 CONTAINER ID        IMAGE                                COMMAND                  CREATED             STATUS              PORTS               NAMES
 c89e41dea460        nginx                                "nginx -g 'daemon off"   8 seconds ago       Up 8 seconds                            k8s_nginx.df822a8e_nginx-redis_default_e34d1ae0-bac7-11e6-a326-0800279bf046_75f4d256
 fe85d388b2ba        redis                                "docker-entrypoint.sh"   9 seconds ago       Up 8 seconds                            k8s_key-value-store.827e2eb6_nginx-redis_default_e34d1ae0-bac7
-----
-+
-
-. Delete the pod
-+
-[source, text]
-----
-$ kubectl delete -f nginx-redis.json 
-pod "nginx-redis" deleted
 ----
 
 == A Replication Controller with Two Replicas of a Pod
