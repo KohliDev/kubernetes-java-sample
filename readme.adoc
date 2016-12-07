@@ -147,7 +147,7 @@ KUBELET_API_SERVER="--api-servers=http://fed-master:8080"
 [source, text]
 ----
 $ touch start_k8s.sh
-$ chmod +x start _k8s.sh
+$ chmod +x start_k8s.sh
 $ vi start_k8s.sh
 openssl genrsa -out /tmp/serviceaccount.key 2048
 for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler kube-proxy kubelet docker; do
